@@ -1,29 +1,69 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Home, Menu, X } from "lucide-react";
+import { LayoutDashboard, Home, Menu, X, Settings, User, LogOut, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { LogoutButton } from "@/components/logout-button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 const navigation = [
   { name: "Dashboard", href: "/protected", icon: LayoutDashboard },
+  { name: "Settings", href: "/protected/settings", icon: Settings },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(({ data: { user } }) => {
-      setUserEmail(user?.email || null);
+      if (user) {
+        setUserEmail(user.email || null);
+        setDisplayName(
+          user.user_metadata?.display_name || 
+          user.user_metadata?.full_name || 
+          user.email?.split("@")[0] || 
+          null
+        );
+        setAvatarUrl(user.user_metadata?.avatar_url || null);
+      }
     });
   }, []);
+
+  const getInitials = (name: string | null, email: string | null): string => {
+    if (name) {
+      const parts = name.trim().split(" ");
+      if (parts.length >= 2) {
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      }
+      return name[0].toUpperCase();
+    }
+    if (email) {
+      return email[0].toUpperCase();
+    }
+    return "U";
+  };
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/auth/login");
+  };
 
   return (
     <>
@@ -90,7 +130,7 @@ export function Sidebar() {
           {/* Navigation */}
           <nav className="flex-1 space-y-1 p-4">
             {navigation.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = pathname === item.href || (item.href !== "/protected" && pathname.startsWith(item.href));
               return (
                 <Link
                   key={item.name}
@@ -111,16 +151,83 @@ export function Sidebar() {
           </nav>
 
           {/* Footer with User Info */}
-          <div className="border-t border-purple-200 dark:border-purple-800 p-4 space-y-3">
+          <div className="border-t border-purple-200 dark:border-purple-800 p-4">
             {userEmail && (
-              <div className="px-3 py-2 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/50 dark:to-pink-950/50 border border-purple-200 dark:border-purple-800">
-                <p className="text-xs font-medium text-purple-700 dark:text-purple-300">Signed in as</p>
-                <p className="text-xs text-purple-600 dark:text-purple-400 truncate font-medium">{userEmail}</p>
-              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className="w-full flex items-center gap-3 px-3 py-2 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/50 dark:to-pink-950/50 border border-purple-200 dark:border-purple-800 hover:bg-gradient-to-br hover:from-purple-100 hover:to-pink-100 dark:hover:from-purple-900 dark:hover:to-pink-900 transition-all focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                    onClick={() => setIsMobileOpen(false)}
+                  >
+                    {/* Avatar */}
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 flex items-center justify-center text-white font-semibold text-sm shadow-lg shadow-purple-500/30 flex-shrink-0">
+                      {avatarUrl ? (
+                        <img
+                          src={avatarUrl}
+                          alt={displayName || userEmail}
+                          className="w-full h-full rounded-full object-cover"
+                        />
+                      ) : (
+                        <span>{getInitials(displayName, userEmail)}</span>
+                      )}
+                    </div>
+                    
+                    {/* User Info */}
+                    <div className="flex-1 min-w-0 text-left">
+                      <p className="text-xs font-medium text-purple-700 dark:text-purple-300 truncate">
+                        {displayName || "User"}
+                      </p>
+                      <p className="text-xs text-purple-600 dark:text-purple-400 truncate">
+                        {userEmail}
+                      </p>
+                    </div>
+
+                    {/* Chevron */}
+                    <ChevronDown className="w-4 h-4 text-purple-600 dark:text-purple-400 flex-shrink-0" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent
+                  align="end"
+                  className="w-56 border-2 border-purple-200 dark:border-purple-800 bg-gradient-to-br from-purple-50/95 to-pink-50/95 dark:from-purple-950/95 dark:to-pink-950/95 backdrop-blur-sm"
+                >
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{displayName || "User"}</p>
+                      <p className="text-xs leading-none text-muted-foreground truncate">
+                        {userEmail}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-purple-200 dark:bg-purple-800" />
+                  <DropdownMenuItem
+                    asChild
+                    className="cursor-pointer focus:bg-purple-100 dark:focus:bg-purple-900 focus:text-purple-900 dark:focus:text-purple-100"
+                  >
+                    <Link href="/protected/settings" onClick={() => setIsMobileOpen(false)}>
+                      <Settings className="mr-2 h-4 w-4" />
+                      <span>Account Settings</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    asChild
+                    className="cursor-pointer focus:bg-purple-100 dark:focus:bg-purple-900 focus:text-purple-900 dark:focus:text-purple-100"
+                  >
+                    <Link href="/protected/settings" onClick={() => setIsMobileOpen(false)}>
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-purple-200 dark:bg-purple-800" />
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="cursor-pointer text-red-600 dark:text-red-400 focus:bg-red-50 dark:focus:bg-red-950/50 focus:text-red-700 dark:focus:text-red-300"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             )}
-            <div className="px-3">
-              <LogoutButton />
-            </div>
           </div>
         </div>
       </aside>
