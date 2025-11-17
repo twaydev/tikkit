@@ -93,42 +93,57 @@ export default async function Home() {
           <div className="hidden md:flex items-center gap-8">
             <Link 
               href="#features" 
-              className="flex items-center gap-2 text-base font-semibold text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="group flex items-center gap-2 text-base font-semibold text-foreground/80 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-300 hover:scale-105 relative"
             >
-              <Sparkles className="w-5 h-5" />
-              Features
+              <Sparkles className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110 group-hover:text-purple-500" />
+              <span className="relative">
+                Features
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </Link>
             <Link 
               href="https://tway.dev/posts/" 
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-base font-semibold text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="group flex items-center gap-2 text-base font-semibold text-foreground/80 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-300 hover:scale-105 relative"
             >
-              <BookOpen className="w-5 h-5" />
-              Blog
+              <BookOpen className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110 group-hover:text-purple-500" />
+              <span className="relative">
+                Blog
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </Link>
             <Link 
               href="#pricing" 
-              className="flex items-center gap-2 text-base font-semibold text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="group flex items-center gap-2 text-base font-semibold text-foreground/80 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-300 hover:scale-105 relative"
             >
-              <DollarSign className="w-5 h-5" />
-              Pricing
+              <DollarSign className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110 group-hover:text-purple-500" />
+              <span className="relative">
+                Pricing
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </Link>
             <Link 
               href="http://tikkit.tway.dev/docs" 
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-base font-semibold text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="group flex items-center gap-2 text-base font-semibold text-foreground/80 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-300 hover:scale-105 relative"
             >
-              <Book className="w-5 h-5" />
-              Docs
+              <Book className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110 group-hover:text-purple-500" />
+              <span className="relative">
+                Docs
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </Link>
             <Link 
               href="#contact" 
-              className="flex items-center gap-2 text-base font-semibold text-muted-foreground hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="group flex items-center gap-2 text-base font-semibold text-foreground/80 hover:text-purple-600 dark:hover:text-purple-400 transition-all duration-300 hover:scale-105 relative"
             >
-              <Mail className="w-5 h-5" />
-              Contact
+              <Mail className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110 group-hover:text-purple-500" />
+              <span className="relative">
+                Contact
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </Link>
           </div>
           
