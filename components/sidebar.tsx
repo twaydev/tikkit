@@ -53,21 +53,37 @@ export function Sidebar() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed left-0 top-0 z-40 h-screen w-64 border-r bg-background transition-transform duration-300 ease-in-out",
+          "fixed left-0 top-0 z-40 h-screen w-64 border-r border-purple-200 dark:border-purple-800 bg-gradient-to-b from-purple-50/50 via-pink-50/30 to-background dark:from-purple-950/30 dark:via-pink-950/20 dark:to-background transition-transform duration-300 ease-in-out",
           "lg:translate-x-0",
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
         <div className="flex h-full flex-col">
           {/* Logo/Brand */}
-          <div className="flex h-16 items-center border-b px-6">
+          <div className="flex h-16 items-center border-b border-purple-200 dark:border-purple-800 px-6">
             <Link
               href="/"
-              className="flex items-center gap-2 font-semibold"
+              className="flex items-center gap-2 font-semibold group"
               onClick={() => setIsMobileOpen(false)}
             >
-              <Home className="h-5 w-5" />
-              <span>Tikkit</span>
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-4 h-4"
+                >
+                  <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" x2="8" y1="13" y2="13" />
+                  <line x1="16" x2="8" y1="17" y2="17" />
+                </svg>
+              </div>
+              <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent">Tikkit</span>
             </Link>
           </div>
 
@@ -81,10 +97,10 @@ export function Sidebar() {
                   href={item.href}
                   onClick={() => setIsMobileOpen(false)}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all",
                     isActive
-                      ? "bg-accent text-accent-foreground"
-                      : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      ? "bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-950 dark:to-pink-950 text-purple-700 dark:text-purple-300 shadow-sm border border-purple-200 dark:border-purple-800"
+                      : "text-muted-foreground hover:bg-purple-50 dark:hover:bg-purple-950/50 hover:text-purple-600 dark:hover:text-purple-400"
                   )}
                 >
                   <item.icon className="h-5 w-5" />
@@ -95,11 +111,11 @@ export function Sidebar() {
           </nav>
 
           {/* Footer with User Info */}
-          <div className="border-t p-4 space-y-3">
+          <div className="border-t border-purple-200 dark:border-purple-800 p-4 space-y-3">
             {userEmail && (
-              <div className="px-3 py-2">
-                <p className="text-xs font-medium text-foreground">Signed in as</p>
-                <p className="text-xs text-muted-foreground truncate">{userEmail}</p>
+              <div className="px-3 py-2 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950/50 dark:to-pink-950/50 border border-purple-200 dark:border-purple-800">
+                <p className="text-xs font-medium text-purple-700 dark:text-purple-300">Signed in as</p>
+                <p className="text-xs text-purple-600 dark:text-purple-400 truncate font-medium">{userEmail}</p>
               </div>
             )}
             <div className="px-3">

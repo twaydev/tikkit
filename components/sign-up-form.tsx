@@ -58,10 +58,12 @@ export function SignUpForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
+      <Card className="border-2 border-purple-200 dark:border-purple-800 shadow-lg">
         <CardHeader>
-          <CardTitle className="text-2xl">Sign up</CardTitle>
-          <CardDescription>Create a new account</CardDescription>
+          <CardTitle className="text-2xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            Sign up
+          </CardTitle>
+          <CardDescription>Create a new account to get started</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSignUp}>
@@ -75,6 +77,7 @@ export function SignUpForm({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className="border-purple-200 dark:border-purple-800 focus:border-purple-400 dark:focus:border-purple-600"
                 />
               </div>
               <div className="grid gap-2">
@@ -87,6 +90,7 @@ export function SignUpForm({
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="border-purple-200 dark:border-purple-800 focus:border-purple-400 dark:focus:border-purple-600"
                 />
               </div>
               <div className="grid gap-2">
@@ -99,16 +103,28 @@ export function SignUpForm({
                   required
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
+                  className="border-purple-200 dark:border-purple-800 focus:border-purple-400 dark:focus:border-purple-600"
                 />
               </div>
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              {error && (
+                <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800">
+                  <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                </div>
+              )}
+              <Button 
+                type="submit" 
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/50 dark:shadow-purple-500/30" 
+                disabled={isLoading}
+              >
                 {isLoading ? "Creating an account..." : "Sign up"}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
               Already have an account?{" "}
-              <Link href="/auth/login" className="underline underline-offset-4">
+              <Link 
+                href="/auth/login" 
+                className="text-purple-600 dark:text-purple-400 font-medium underline underline-offset-4 hover:text-purple-700 dark:hover:text-purple-300"
+              >
                 Login
               </Link>
             </div>
