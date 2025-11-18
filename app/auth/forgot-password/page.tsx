@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import { ForgotPasswordForm } from "@/components/forgot-password-form";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Forgot Password",
+  description: "Reset your Tikkit account password. Enter your email to receive password reset instructions.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   return (

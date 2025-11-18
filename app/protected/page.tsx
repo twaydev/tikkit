@@ -1,8 +1,18 @@
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 
 import { createClient } from "@/lib/supabase/server";
 import { InfoIcon, Sparkles, Zap, Target } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Manage your tickets and track your progress. View your active tickets, completed tasks, and account statistics.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function ProtectedPage() {
   const supabase = await createClient();

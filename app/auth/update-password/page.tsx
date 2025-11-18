@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import { UpdatePasswordForm } from "@/components/update-password-form";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Update Password",
+  description: "Update your Tikkit account password. Enter your new password to complete the reset process.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   return (

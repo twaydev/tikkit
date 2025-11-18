@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import { SignUpForm } from "@/components/sign-up-form";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Sign Up",
+  description: "Create a free Tikkit account and start organizing your work. Simple, powerful ticket system for solo entrepreneurs.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   return (

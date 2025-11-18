@@ -1,7 +1,17 @@
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 import { SettingsTabs } from "@/components/settings/settings-tabs";
 import { Settings } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Account Settings",
+  description: "Manage your account preferences, security settings, authentication methods, and profile information.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function SettingsPage() {
   const supabase = await createClient();

@@ -1,6 +1,16 @@
+import type { Metadata } from "next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+
+export const metadata: Metadata = {
+  title: "Authentication Error",
+  description: "An error occurred during authentication. Please try again or contact support if the problem persists.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function Page({
   searchParams,

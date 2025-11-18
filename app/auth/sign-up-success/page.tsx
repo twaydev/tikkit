@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   Card,
   CardContent,
@@ -6,6 +7,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Sign Up Successful",
+  description: "Thank you for signing up! Please check your email to confirm your Tikkit account.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   return (

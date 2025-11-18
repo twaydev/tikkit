@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
 import { LoginForm } from "@/components/login-form";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Sign In",
+  description: "Sign in to your Tikkit account to manage your tickets and track your work.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function Page() {
   return (
