@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { createClient } from "@/lib/supabase/server";
 import { InfoIcon, Sparkles, Zap, Target } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { LoginSuccessBanner } from "@/components/login-success-banner";
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -24,6 +26,11 @@ export default async function ProtectedPage() {
 
   return (
     <div className="flex-1 w-full flex flex-col gap-8">
+      {/* Success Message Banner */}
+      <Suspense fallback={null}>
+        <LoginSuccessBanner />
+      </Suspense>
+      
       {/* Welcome Banner */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 dark:from-purple-950 dark:via-pink-950 dark:to-orange-950 border-2 border-purple-200 dark:border-purple-800 p-4">
         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full filter blur-3xl opacity-20"></div>

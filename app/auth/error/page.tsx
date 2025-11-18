@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { AlertCircle, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Authentication Error",
@@ -12,12 +13,50 @@ export const metadata: Metadata = {
   },
 };
 
+function getErrorDetails(errorType?: string) {
+  switch (errorType) {
+    case "expired_link":
+      return {
+        title: "Magic Link Expired",
+        description: "This magic link has expired. Links are valid for 1 hour.",
+        action: "/auth/magic-link",
+        actionText: "Request New Link",
+        showMagicLinkButton: true,
+      };
+    case "used_link":
+      return {
+        title: "Magic Link Already Used",
+        description: "This magic link has already been used. Each link can only be used once.",
+        action: "/auth/magic-link",
+        actionText: "Request New Link",
+        showMagicLinkButton: true,
+      };
+    case "invalid_request":
+      return {
+        title: "Invalid Request",
+        description: "The authentication link is invalid or malformed.",
+        action: "/auth/login",
+        actionText: "Back to Login",
+        showMagicLinkButton: false,
+      };
+    default:
+      return {
+        title: "Authentication Error",
+        description: errorType || "An error occurred during authentication.",
+        action: "/auth/login",
+        actionText: "Back to Login",
+        showMagicLinkButton: false,
+      };
+  }
+}
+
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{ error: string }>;
+  searchParams: Promise<{ error?: string }>;
 }) {
   const params = await searchParams;
+  const errorDetails = getErrorDetails(params?.error);
 
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10 relative overflow-hidden">
@@ -56,38 +95,33 @@ export default async function Page({
           </span>
         </Link>
         
-        <div className="flex flex-col gap-6">
-          <Card className="border-2 border-red-200 dark:border-red-800 shadow-lg">
-            <CardHeader>
-              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-red-400 to-orange-500 flex items-center justify-center text-white mb-4 mx-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="12" x2="12" y1="8" y2="12"/>
-                  <line x1="12" x2="12.01" y1="16" y2="16"/>
-                </svg>
-              </div>
-              <CardTitle className="text-2xl bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent text-center">
-                Sorry, something went wrong
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {params?.error ? (
-                <p className="text-sm text-muted-foreground text-center mb-4">
-                  Error: {params.error}
-                </p>
-              ) : (
-                <p className="text-sm text-muted-foreground text-center mb-4">
-                  An unspecified error occurred.
-                </p>
-              )}
-              <Button asChild className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/50 dark:shadow-purple-500/30">
-                <Link href="/auth/login">
-                  Back to Login
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="border-2 border-red-200 dark:border-red-800 shadow-lg">
+          <CardHeader>
+            <div className="flex items-center justify-center mb-4">
+              <AlertCircle className="w-16 h-16 text-red-500" />
+            </div>
+            <CardTitle className="text-2xl text-center text-red-600 dark:text-red-400">
+              {errorDetails.title}
+            </CardTitle>
+            <CardDescription className="text-center">
+              {errorDetails.description}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button
+              asChild
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/50 dark:shadow-purple-500/30"
+            >
+              <Link href={errorDetails.action}>
+                {errorDetails.showMagicLinkButton && <Mail className="mr-2 h-4 w-4" />}
+                {errorDetails.actionText}
+              </Link>
+            </Button>
+            <Button asChild variant="outline" className="w-full border-purple-200 dark:border-purple-800">
+              <Link href="/auth/login">Back to Login</Link>
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

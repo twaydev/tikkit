@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Mail } from "lucide-react";
 
 export function LoginForm({
   className,
@@ -103,6 +104,27 @@ export function LoginForm({
                 disabled={isLoading}
               >
                 {isLoading ? "Logging in..." : "Login"}
+              </Button>
+              
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t border-purple-200 dark:border-purple-800" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">
+                    Or
+                  </span>
+                </div>
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-950"
+                onClick={() => router.push("/auth/magic-link")}
+              >
+                <Mail className="mr-2 h-4 w-4" />
+                Login with Magic Link
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
